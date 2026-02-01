@@ -25,7 +25,7 @@ with DAG(
     wait_for_raw_file=S3KeySensor (
         task_id="wait_for_raw_sales_file",
         bucket_name="nag-sales-data-bucket",
-        bucket_key="landing/sales/{{ ds }}/sales.csv"                           # This is the exact object (file) path inside S3
+        bucket_key="landing/sales/{{ ds }}/sales.csv"    ,                       # This is the exact object (file) path inside S3
         aws_conn_id="aws_default",      # aws_default is an Airflow connection configured in UI → Admin → Connections
         poke_interval=60,               # Sensor will check S3 every 60 seconds
         timeout=60*60,                  # Maximum time the sensor will wait before failing -> 60*60=3600 seconds = 1 hour

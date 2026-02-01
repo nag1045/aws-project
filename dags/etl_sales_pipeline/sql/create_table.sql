@@ -1,9 +1,11 @@
 CREATE TABLE IF NOT EXISTS sales_clean (
-    order_id INT,
-    customer_id INT,
-    amount DECIMAL(10,2),
-    order_date DATE
+    order_id      VARCHAR(20),
+    order_date    DATE,
+    customer_id   VARCHAR(20),
+    product_id    VARCHAR(20),
+    quantity      INT,
+    price         DECIMAL(10,2),
+    total_amount  DECIMAL(12,2)
 )
-DISTSTYLE KEY
-DISTKEY(order_id)
+DISTSTYLE AUTO
 SORTKEY(order_date);

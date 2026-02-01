@@ -2,6 +2,8 @@ from pyspark.context import SparkContext
 from awsglue.context import GlueContext
 from awsglue.job import Job
 from pyspark.sql.functions import col, to_date
+from pyspark.sql.functions import col, to_date
+from pyspark.sql.types import DecimalType, IntegerType
 
 # --------------------------------------------------
 # Glue / Spark Context
@@ -25,7 +27,6 @@ output_path = "s3://nag-sales-data-bucket/curated/sales/"
 df = (
     spark.read
     .option("header", "true")
-    .option("inferSchema", "true")
     .csv(input_path)
 )
 
@@ -41,6 +42,27 @@ df_clean = (
 # Force Spark execution (good for debugging)
 print(f"Row count = {df_clean.count()}")
 
+# to avoid numeric value mismatch in redshift
+df_clean = (
+    df
+    .filter(col("order_id").isNotNull())
+    .withColumn(
+        "order_date",
+        to_date(col("order_date"), "dd-MM-yyyy")
+    )
+    .withColumn(
+        "quantity",
+        col("quantity").cast(IntegerType())
+    )
+    .withColumn(
+        "price",
+        col("price").cast(DecimalType(10, 2))
+    )
+    .withColumn(
+        "total_amount",
+        col("total_amount").cast(DecimalType(12, 2))
+    )
+)
 # --------------------------------------------------
 # Write Parquet
 # --------------------------------------------------

@@ -1,0 +1,13 @@
+# Airflow runtime
+airflow_home/
+
+# Python virtual env
+aws-etl-env/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Logs
+logs/

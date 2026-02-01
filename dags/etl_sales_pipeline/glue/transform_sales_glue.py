@@ -9,7 +9,7 @@ args = getResolvedOptions(sys.argv, ["execution_date"])
 execution_date = args["execution_date"]
 
 sc = SparkContext()
-glueContext = GlueContext(sc)
+glueContext = GlueContext(sc)   
 spark = glueContext.spark_session
 
 input_path = f"s3://nag-sales-data-bucket/landing/sales/{execution_date}/"

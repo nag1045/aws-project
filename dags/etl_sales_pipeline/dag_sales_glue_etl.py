@@ -34,7 +34,7 @@ with DAG(
     glue_transform=GlueJobOperator(
         task_id="run_glue_sales_transform",
         job_name="sales-etl-glue-job",
-        scrit_args={
+        script_args={
             "--execution_date":"{{ds}}"
         },
         aws_conn_id="aws_default",
